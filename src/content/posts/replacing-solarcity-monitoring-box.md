@@ -1,7 +1,8 @@
 ---
-title: "Replacing the SolarCity monitoring box with a local radio collector"
-description: "Reading a Power-One inverter locally with a SMLIGHT radio bridge and Python, without the original SolarCity monitoring box."
+title: "Reading a SolarCity inverter locally: replacement or passive collection"
+description: "Read a Power-One inverter with a SMLIGHT bridge and Python: replace the SolarCity box or try experimental passive monitoring alongside it."
 date: 2026-10-05
+updated: 2026-10-05
 tags: [solar, radio, home-assistant]
 draft: false
 project: "https://github.com/daltschu22/solar-city-inverter-radio"
@@ -17,13 +18,15 @@ my own machine, so I replaced the monitoring box with a SMLIGHT bridge and
 Python software.
 
 [SolarCity Inverter Radio](https://github.com/daltschu22/solar-city-inverter-radio)
-maintains the radio network, answers the inverter's startup messages, and reads
-production and diagnostic registers.
+can take over the original box's job or listen alongside it. Both modes save
+readings locally and provide the same JSON API, optional dashboard, and Home
+Assistant integration.
 
 I used a **Power-One PVI-5000-OUTD-US-Z**, its existing Digi XBee radio, and a
-**SMLIGHT SLZB-06U**. This is the only hardware combination tested so far.
-The collector currently requires the original box's radio identity and network
-settings. Pairing with a new coordinator identity remains untested.
+**SMLIGHT SLZB-06U** in replacement mode. This is the only hardware combination
+tested so far. Replacement requires the original box's radio identity and network
+settings. Pairing with a new coordinator identity remains untested. Passive mode
+has offline tests but has not been verified on live hardware.
 
 <div class="hardware-photos">
 <figure>
@@ -35,6 +38,31 @@ settings. Pairing with a new coordinator identity remains untested.
 <figcaption>The original SolarCity monitoring box.</figcaption>
 </figure>
 </div>
+
+## Two ways to collect readings
+
+| Mode | Original SolarCity / Tesla box | What our collector does |
+| --- | --- | --- |
+| **Replacement** (default) | Powered off | Maintains the network, answers startup messages, and queries the inverter |
+| **Passive** (experimental) | Powered on and working | Listens to the box's requests and the inverter's replies |
+
+Choose the mode with `SOLAR_COLLECTOR_MODE` in the generated `.env`:
+`replacement` or `passive`. The [setup guide](https://github.com/daltschu22/solar-city-inverter-radio/blob/main/docs/setup.md#choose-how-to-collect-readings)
+covers discovery and configuration for both.
+
+In passive mode, the original box controls which registers are queried and how
+often. Our collector saves readings only after capturing a complete request and
+matching reply. It can reassemble supported fragmented replies, but missing
+requests or fragments leave gaps. It sends no queries or coordinator replies
+and never switches to replacement mode automatically.
+
+The SMLIGHT RCP firmware can miss the unicast packets passive collection needs.
+Discovering the network settings is not enough to establish reliable reception.
+This option still needs testing alongside a working original box, including
+checking for unintended hardware acknowledgments.
+
+The network coordination, startup exchange, and polling described below apply
+to replacement mode. In passive mode, the original box handles those tasks.
 
 ## Radio protocol
 
@@ -59,7 +87,7 @@ Digi documents its serial-data service under application profile `0xc105`, clust
 behind the radio. [Digi application profile documentation](https://www.digi.com/support/knowledge-base/using-digi-s-applicaiton-s-cluster-id-s-and-end-po)
 
 The supported network uses legacy stack profile `0` and unencrypted packets.
-The collector implements the Digi network and application behavior this
+The replacement collector implements the Digi network and application behavior this
 inverter expects; radio hardware compatibility alone isn't sufficient.
 
 ## Using a network radio from Python
@@ -75,7 +103,7 @@ Although the firmware is called OpenThread RCP, the project uses it as a raw
 IEEE 802.15.4 interface. Python supplies the legacy Digi Zigbee frames. There is
 no Thread network in this arrangement.
 
-The radio handles transmission,
+In replacement mode, the radio handles transmission,
 reception, frame checksums, and MAC acknowledgments. Python handles coordinator
 messages, application acknowledgments, measurement requests, and decoding.
 The repository pins the Python radio dependency to a specific revision so that
@@ -136,11 +164,11 @@ The response contains a power value and scale factor. For a synthetic example,
 a raw value of `5000` with scale `-1` means `500.0 W`. Register values are
 big-endian; the Modbus CRC is sent low byte first.
 
-The collector checks identity, addressing, application fields, expected length,
+The replacement collector checks identity, addressing, application fields, expected length,
 and CRC before accepting a reading. It rejects radio errors and unsupported
 fragmentation. Missing readings remain gaps in the data.
 
-The collector sends one measurement query per minute, with
+By default, replacement mode sends one measurement query per minute, with
 power alternating with energy and diagnostics. Power normally updates every two
 minutes. Network maintenance continues independently, and packet delivery retries
 are bounded. The integration reads inverter registers; it does not change inverter
@@ -153,26 +181,25 @@ optional dashboard, and a single container image with an optional dashboard flag
 [setup guide](https://github.com/daltschu22/solar-city-inverter-radio/blob/main/docs/setup.md)
 covers the exact configuration fields and startup sequence.
 
-Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and run
-`uv sync --locked` from the repository root to set up Python and dependencies.
-
 The main steps are:
 
 1. Confirm the inverter and radio match the supported legacy setup.
 2. Configure the SMLIGHT RCP bridge, then use the included
-   [discovery script and report-to-config guide](https://github.com/daltschu22/solar-city-inverter-radio/blob/main/docs/discovery.md)
-   to gather your channel, operating PAN IDs, expected collector EUI, and inverter EUI.
-   Existing captures or accessible radio configuration are also useful sources.
-3. Review the evidence, put the observed values in `.env`, and validate
-   the file with `uv run --env-file .env python -m collector.config` from the repository root.
-4. Power off the original collector, if present, and give the Python collector
-   exclusive access to the radio bridge after capture has finished.
-5. Validate fresh readings, then observe startup and overnight recovery.
+   [discovery tool](https://github.com/daltschu22/solar-city-inverter-radio/blob/main/docs/discovery.md)
+   to gather the radio settings and generate `.env` with `--write-env .env`.
+3. Review the discovered equipment, choose replacement or passive mode, and
+   validate the generated configuration.
+4. Power off the original box for replacement, or leave it working for passive.
+   After discovery finishes, give the Python collector exclusive access to the
+   SMLIGHT bridge.
+5. Check fresh readings and saved history. In replacement mode, also observe
+   startup and overnight recovery. In passive mode, check that complete exchanges
+   are being captured.
 
-From the repository root, run `uv run --env-file .env python -m collector` for collection and the JSON
-API on port `8766`. The optional dashboard runs separately with
-`uv run python -m dashboard` on port `8765` and
-reads the collector API. Home Assistant can use the same API through its REST
+The setup guide has the commands for running locally or in a container. The
+collector's JSON API is on port `8766`. The optional dashboard runs on port `8765`,
+either separately or in the same container, and reads that API. Both arrangements
+work with either collection mode. Home Assistant can use the same API through its REST
 sensors; the repository includes a
 [power and energy example](https://github.com/daltschu22/solar-city-inverter-radio/blob/main/docs/home-assistant.md).
 Starting or stopping the dashboard does not restart the radio connection, and
@@ -181,7 +208,8 @@ API reads do not increase inverter polling frequency.
 A capture used to inspect the application exchange needs to include unicast
 traffic. Stock TI RCP promiscuous reception can miss ACK-requested unicasts, so a
 quiet capture is not conclusive. An independent, verified sniffer can help during
-initial characterization. Normal operation uses the SMLIGHT alone.
+initial characterization. Replacement collection runs without the original box;
+passive collection depends on that box continuing to query the inverter.
 
 The repository contains fictional identities and synthetic telemetry.
 Installation configuration, captures, databases, and logs stay out of version
@@ -193,6 +221,10 @@ the data includes information about the local equipment.
 With the original box powered off, testing covered recovery from a radio reset,
 a leave/rejoin cycle, and an overnight-to-morning transition on one installation.
 Independent hardware reproductions and long-term reliability remain unverified.
+
+Passive request/reply matching, fragment reassembly, storage, and reconnect
+behavior have been tested with synthetic exchanges. Live reception alongside
+the original box and the radio's acknowledgment behavior remain unverified.
 
 The included discovery tool can recover candidate settings from inverter traffic
 and explains the evidence for each value. On an operating replacement network,
