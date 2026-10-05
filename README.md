@@ -117,5 +117,5 @@ hardware, protocol details, and compatibility limits are retained. Code and
 installation instructions remain in
 [SolarCity Inverter Radio](https://github.com/daltschu22/solar-city-inverter-radio).
 
-The two hardware photos were supplied by the project owner and previously
-reviewed with metadata removed. The source check pins their reviewed bytes.
+The hardware photos were supplied by the project owner and reviewed with
+metadata removed. The source check pins their reviewed bytes.

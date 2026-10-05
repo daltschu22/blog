@@ -5,8 +5,8 @@ date: 2026-10-05
 tags: [solar, radio, home-assistant]
 draft: false
 project: "https://github.com/daltschu22/solar-city-inverter-radio"
-image: "images/solarcity/power-one-pvi-5000-outd-us-z-front.jpg"
-imageAlt: "SolarCity-branded Power-One inverter"
+image: "images/solarcity/original-solarcity-collector-wide.jpg"
+imageAlt: "Original SolarCity monitoring box with an external radio antenna"
 ---
 
 My solar setup has a Power-One inverter and a SolarCity monitoring box. The
@@ -29,7 +29,7 @@ settings. Pairing with a new coordinator identity remains untested.
 <figcaption>The Power-One inverter. Check the model label to identify yours; the front casing isn't enough.</figcaption>
 </figure>
 <figure>
-<img src="/images/solarcity/original-solarcity-collector.jpg" alt="Original white SolarCity monitoring collector with an external black radio antenna" width="960" height="1280" loading="lazy" />
+<img src="/images/solarcity/original-solarcity-collector-wide.jpg" alt="Original white SolarCity monitoring collector with an external black radio antenna" width="1280" height="721" loading="lazy" />
 <figcaption>The original SolarCity monitoring box.</figcaption>
 </figure>
 </div>

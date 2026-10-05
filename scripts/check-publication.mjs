@@ -6,6 +6,7 @@ const files = execFileSync('git', ['ls-files', '-z', '--cached', '--others', '--
 const approvedPhotos = {
   'public/images/solarcity/power-one-pvi-5000-outd-us-z-front.jpg': '4e40ea9c5a48528e18fca71b1739125451aa13ffaf3a64a20ca30aa392d86d12',
   'public/images/solarcity/original-solarcity-collector.jpg': 'b7e5a39567b5ceefb6b18b45c4f061c2055a67c325d438450137a3a055e81254',
+  'public/images/solarcity/original-solarcity-collector-wide.jpg': '0c6f634a149c819f26cfa21735a5f55827c2016b42c170e0153a660ed9502c0b',
 };
 const rules = [
   ['private home path', /\/home\/[a-zA-Z0-9_-]+\//],
