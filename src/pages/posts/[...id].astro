@@ -1,0 +1,37 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { publishedPosts, pathFor, formatDate, readingMinutes } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  return (await publishedPosts()).map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+interface Props { post: CollectionEntry<'posts'> }
+const { post } = Astro.props;
+const { Content } = await render(post);
+const schema = {
+  '@context': 'https://schema.org', '@type': 'BlogPosting',
+  headline: post.data.title, description: post.data.description,
+  datePublished: post.data.date.toISOString(),
+  dateModified: (post.data.updated || post.data.date).toISOString(),
+  author: { '@type': 'Person', name: 'daltschu22', url: 'https://github.com/daltschu22' },
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+  ...(post.data.image && { image: new URL(pathFor(post.data.image), Astro.site).href }),
+};
+---
+<Base title={`${post.data.title} — Field notes`} description={post.data.description} image={post.data.image ? pathFor(post.data.image) : undefined} article>
+  <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />
+  <article class="article-shell">
+    <header class="article-header">
+      <a class="back-link" href={pathFor('#articles')}><span aria-hidden="true">←</span> Back to the notebook</a>
+      <p class="eyebrow">{post.data.tags.join(' / ')}</p>
+      <h1>{post.data.title}</h1>
+      <p class="article-description">{post.data.description}</p>
+      <div class="article-byline"><span>By <a href="https://github.com/daltschu22">daltschu22</a></span><span aria-hidden="true">·</span><time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time><span aria-hidden="true">·</span><span>{readingMinutes(post.body)} min read</span></div>
+      {post.data.project && <a class="project-link" href={post.data.project}>Code &amp; setup instructions <span aria-hidden="true">↗</span></a>}
+    </header>
+    <div class="prose"><Content /></div>
+    <div class="article-end"><span class="mark" aria-hidden="true">fn.</span><p>Keep building.</p><a href={pathFor()}>More field notes <span aria-hidden="true">↗</span></a></div>
+  </article>
+</Base>

@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import { publishedPosts, pathFor, formatDate, readingMinutes } from '../lib/posts';
+
+const posts = await publishedPosts();
+---
+<Base>
+  <section class="intro shell">
+    <p class="eyebrow"><span class="small-square" aria-hidden="true"></span> Notes from the workbench</p>
+    <h1>Projects,<br />explained<span class="accent">.</span></h1>
+    <p class="intro-description">Solar, radios, and making hardware talk to software.<br class="desktop-break" /> The useful details, written down so you can build it too.</p>
+  </section>
+  <section id="articles" class="articles shell" aria-labelledby="articles-heading">
+    <div class="section-heading"><h2 id="articles-heading">The notebook</h2><span>{posts.length} {posts.length === 1 ? 'article' : 'articles'}</span></div>
+    {posts.map((post, index) => (
+      <article class="post-preview">
+        <div class="post-preview-copy">
+          <p class="post-number">{String(posts.length - index).padStart(2, '0')} <span>/</span> {post.data.tags.join(' · ')}</p>
+          <h3><a href={pathFor(`posts/${post.id}/`)}>{post.data.title}</a></h3>
+          <p class="post-description">{post.data.description}</p>
+          <p class="post-meta"><time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time><span aria-hidden="true">·</span><span>{readingMinutes(post.body)} min read</span></p>
+          <a class="read-link" href={pathFor(`posts/${post.id}/`)}>Read the article <span aria-hidden="true">↗</span></a>
+        </div>
+        {post.data.image && <a class="post-preview-image" href={pathFor(`posts/${post.id}/`)} tabindex="-1" aria-hidden="true"><img src={pathFor(post.data.image)} alt="" width="721" height="1280" /></a>}
+      </article>
+    ))}
+  </section>
+</Base>

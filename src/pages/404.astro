@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { pathFor } from '../lib/posts';
+---
+<Base title="Page not found — Field notes" noindex>
+  <section class="intro shell">
+    <p class="eyebrow">404 / Page not found</p>
+    <h1>A loose end<span class="accent">.</span></h1>
+    <p class="intro-description">This page isn't in the notebook.</p>
+    <a class="read-link" href={pathFor()}>Back to the articles <span aria-hidden="true">↗</span></a>
+  </section>
+</Base>

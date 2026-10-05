@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+import { pathFor } from '../lib/posts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+  noindex?: boolean;
+}
+
+const {
+  title = 'Field notes — daltschu22',
+  description = 'Projects, explained. Notes on solar, radios, and making hardware talk to software.',
+  image = pathFor('images/solarcity/power-one-pvi-5000-outd-us-z-front.jpg'),
+  article = false,
+  noindex = false,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const socialImage = new URL(image, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f6f5f0" />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" type="image/svg+xml" href={pathFor('favicon.svg')} />
+    <link rel="alternate" type="application/rss+xml" title="Field notes" href={pathFor('rss.xml')} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:site_name" content="Field notes — daltschu22" />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header shell">
+      <a class="wordmark" href={pathFor()} aria-label="Field notes home"><span class="mark" aria-hidden="true">fn.</span><span>daltschu22 <span class="wordmark-divider">/</span> field notes</span></a>
+      <nav aria-label="Main navigation">
+        <a href={pathFor('#articles')}>Articles</a>
+        <a href="https://github.com/daltschu22">GitHub <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer shell">
+      <p>Built things. Written down.</p>
+      <div><a href={pathFor('rss.xml')}>RSS feed</a><a href="https://github.com/daltschu22/blog">Site source <span aria-hidden="true">↗</span></a></div>
+    </footer>
+  </body>
+</html>
