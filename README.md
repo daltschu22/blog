@@ -75,9 +75,10 @@ Pull requests run checks and a build. Pushes to `main` run those same checks,
 then deploy to GitHub Pages. There is no publication from a pull request and
 no external cross-posting automation. The RSS feed is at `/rss.xml`.
 
-Dependencies and action revisions are pinned. Build output and local secrets
-stay ignored. No server, credentials, or live inverter connection is needed to
-serve this site.
+GitHub Actions use the latest stable major-version tags and receive updates
+within those majors automatically. npm installs use the committed lockfile.
+Build output and local secrets stay ignored. No server, credentials, or live
+inverter connection is needed to serve this site.
 
 ## Connect the custom domain
 

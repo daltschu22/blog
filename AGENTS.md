@@ -17,3 +17,5 @@
   changes and push to `main` when requested work is complete and validated.
   Merging to `main` publishes the site.
 - The live deployment URL comes from the `SITE_URL` GitHub Actions variable.
+- Use the latest stable major-version tags for GitHub Actions instead of
+  commit hashes.
