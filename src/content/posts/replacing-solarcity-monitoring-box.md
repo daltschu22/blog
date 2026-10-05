@@ -56,10 +56,11 @@ matching reply. It can reassemble supported fragmented replies, but missing
 requests or fragments leave gaps. It sends no queries or coordinator replies
 and never switches to replacement mode automatically.
 
-The SMLIGHT RCP firmware can miss the unicast packets passive collection needs.
-Discovering the network settings is not enough to establish reliable reception.
-This option still needs testing alongside a working original box, including
-checking for unintended hardware acknowledgments.
+Passive decoding has passed software tests and replay of recorded exchanges,
+but live measurement capture remains unverified. The official SMLIGHT firmware
+can omit the required unicast packets. A capture fix is under evaluation; there
+is no validated passive firmware package yet. Selecting passive mode alone does
+not fix reception. Testing must also check for unintended hardware acknowledgments.
 
 The network coordination, startup exchange, and polling described below apply
 to replacement mode. In passive mode, the original box handles those tasks.
@@ -95,7 +96,7 @@ inverter expects; radio hardware compatibility alone isn't sufficient.
 The SLZB-06U exposes its radio through a network serial bridge. That lets the
 collector run on a machine with no USB connection to the radio.
 
-The tested configuration uses SMLIGHT's CC2652P OpenThread RCP firmware build
+The tested replacement configuration uses SMLIGHT's CC2652P OpenThread RCP firmware build
 `20260304`, a `460800` baud serial bridge, and TCP port `6638`.
 [SMLIGHT documents this firmware mode](https://smlight.tech/manual/slzb-06/guide/thread-matter/).
 
