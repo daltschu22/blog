@@ -10,7 +10,7 @@ function walk(folder) {
   return readdirSync(folder, { withFileTypes: true }).flatMap((entry) => entry.isDirectory() ? walk(join(folder, entry.name)) : [join(folder, entry.name)]);
 }
 const files = walk(dist);
-const home = readFileSync(join(dist, 'index.html'), 'utf8');
+const archive = readFileSync(join(dist, 'posts/index.html'), 'utf8');
 const feed = readFileSync(join(dist, 'rss.xml'), 'utf8');
 const sitemap = readFileSync(join(dist, 'sitemap-0.xml'), 'utf8');
 for (const file of files.filter((file) => file.endsWith('.html'))) {
@@ -21,6 +21,9 @@ for (const file of files.filter((file) => file.endsWith('.html'))) {
   if (file.endsWith('/404.html')) {
     if (!html.includes('name="robots" content="noindex"')) failures.push('404 page must be excluded from search');
   } else if (!canonical || canonical[1] !== expected.href) failures.push(`${page}: incorrect canonical URL`);
+  for (const match of html.matchAll(/<script\b([^>]*)>/g)) {
+    if (!/type="application\/ld\+json"/.test(match[1])) failures.push(`${page}: unexpected browser JavaScript`);
+  }
   for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
     const value = match[1].replace(/&amp;/g, '&');
     if (/^(?:#|mailto:|tel:|data:)/.test(value)) continue;
@@ -43,12 +46,12 @@ for (const file of walk(postsRoot).filter((file) => file.endsWith('.md'))) {
   const expectedArticle = new URL(`${base}/posts/${slug}/`, deployment.origin).href;
   if (post.draft === false) {
     if (!existsSync(join(dist, 'posts', slug, 'index.html'))) failures.push(`${slug}: published article page is missing`);
-    if (!home.includes(expectedArticle.replace(deployment.origin, ''))) failures.push(`${slug}: homepage link is missing`);
+    if (!archive.includes(expectedArticle.replace(deployment.origin, ''))) failures.push(`${slug}: post archive link is missing`);
     if (!feed.includes(expectedArticle)) failures.push(`${slug}: RSS item is missing`);
     if (!sitemap.includes(expectedArticle)) failures.push(`${slug}: sitemap item is missing`);
   } else {
     if (existsSync(join(dist, 'posts', slug, 'index.html'))) failures.push(`${slug}: draft article was published`);
-    if (home.includes(post.title) || feed.includes(post.title) || sitemap.includes(expectedArticle)) failures.push(`${slug}: draft leaked into an index or feed`);
+    if (files.filter(file => file.endsWith('.html')).some(file => readFileSync(file, 'utf8').includes(post.title)) || feed.includes(post.title) || sitemap.includes(expectedArticle)) failures.push(`${slug}: draft leaked into a page or feed`);
   }
 }
 if (failures.length) throw new Error(`Build checks failed:\n${failures.join('\n')}`);

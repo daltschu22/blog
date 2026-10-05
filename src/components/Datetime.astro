@@ -1,0 +1,25 @@
+---
+import IconCalendar from '../assets/icons/IconCalendar.svg';
+import { formatDate } from '../lib/posts';
+
+interface Props {
+  date: Date;
+  updated?: Date;
+  size?: 'sm' | 'lg';
+}
+
+const { date, updated, size = 'sm' } = Astro.props;
+const isModified = updated && updated > date;
+const datetime = isModified ? updated : date;
+---
+
+<div class="text-muted-foreground flex items-center gap-x-2">
+  <IconCalendar
+    aria-hidden="true"
+    class:list={['inline-block size-6 min-w-5.5', { 'scale-90': size === 'sm' }]}
+  />
+  {isModified && <span class="text-sm">Updated:</span>}
+  <time class:list={['text-sm', { 'sm:text-base': size === 'lg' }]} datetime={datetime.toISOString()}>
+    {formatDate(datetime)}
+  </time>
+</div>

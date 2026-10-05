@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import Tag from '../../components/Tag.astro';
+import { publishedPosts } from '../../lib/posts';
+
+const tags = [...new Set((await publishedPosts()).flatMap(post => post.data.tags))].sort();
+---
+
+<Base title="Tags — daltschu22" description="Browse blog posts by topic.">
+  <Breadcrumb current="Tags" />
+  <h1 class="text-2xl font-semibold sm:text-3xl">Tags</h1>
+  <p class="mt-2 mb-6 italic">Browse posts by topic.</p>
+  <ul class="flex flex-wrap gap-6">
+    {tags.map(tag => <Tag {tag} />)}
+  </ul>
+</Base>

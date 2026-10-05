@@ -1,0 +1,41 @@
+---
+import { pathFor } from '../lib/posts';
+import IconRss from '../assets/icons/IconRss.svg';
+
+const currentPath = Astro.url.pathname;
+const postsActive = currentPath.startsWith(pathFor('posts/'));
+const tagsActive = currentPath.startsWith(pathFor('tags/'));
+---
+
+<a
+  href="#main-content"
+  class="bg-background text-accent absolute left-4 -top-full z-50 px-3 py-2 focus:top-4"
+>
+  Skip to content
+</a>
+<header class="app-layout">
+  <div class="border-border flex flex-col gap-3 border-b py-4 sm:flex-row sm:items-center sm:justify-between sm:py-6">
+    <a href={pathFor()} class="text-xl leading-8 font-semibold sm:text-2xl sm:leading-none">
+      daltschu22's blog
+    </a>
+    <nav aria-label="Main navigation">
+      <ul class="flex items-center gap-6 font-medium">
+        <li>
+          <a href={pathFor('posts/')} class:list={['hover:text-accent', { 'active-nav': postsActive }]} aria-current={currentPath === pathFor('posts/') ? 'page' : undefined}>
+            Posts
+          </a>
+        </li>
+        <li>
+          <a href={pathFor('tags/')} class:list={['hover:text-accent', { 'active-nav': tagsActive }]} aria-current={currentPath === pathFor('tags/') ? 'page' : undefined}>
+            Tags
+          </a>
+        </li>
+        <li>
+          <a href={pathFor('rss.xml')} class="flex py-1 hover:text-accent" aria-label="RSS feed" title="RSS feed">
+            <IconRss aria-hidden="true" class="size-5" />
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

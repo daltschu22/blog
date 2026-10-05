@@ -1,10 +1,14 @@
 ---
 import { render, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { publishedPosts, pathFor, formatDate, readingMinutes } from '../../lib/posts';
+import Datetime from '../../components/Datetime.astro';
+import Tag from '../../components/Tag.astro';
+import LinkButton from '../../components/LinkButton.astro';
+import IconChevronLeft from '../../assets/icons/IconChevronLeft.svg';
+import { publishedPosts, pathFor, readingMinutes } from '../../lib/posts';
 
 export async function getStaticPaths() {
-  return (await publishedPosts()).map((post) => ({ params: { id: post.id }, props: { post } }));
+  return (await publishedPosts()).map(post => ({ params: { id: post.id }, props: { post } }));
 }
 
 interface Props { post: CollectionEntry<'posts'> }
@@ -20,18 +24,36 @@ const schema = {
   ...(post.data.image && { image: new URL(pathFor(post.data.image), Astro.site).href }),
 };
 ---
+
 <Base title={`${post.data.title} — daltschu22`} description={post.data.description} image={post.data.image ? pathFor(post.data.image) : undefined} article>
-  <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />
-  <article class="article-shell">
-    <header class="article-header">
-      <a class="back-link" href={pathFor('#articles')}><span aria-hidden="true">←</span> All posts</a>
-      <p class="eyebrow">{post.data.tags.join(' / ')}</p>
-      <h1>{post.data.title}</h1>
-      <p class="article-description">{post.data.description}</p>
-      <div class="article-byline"><span>By <a href="https://github.com/daltschu22">daltschu22</a></span><span aria-hidden="true">·</span><time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time><span aria-hidden="true">·</span><span>{readingMinutes(post.body)} min read</span></div>
-      {post.data.project && <a class="project-link" href={post.data.project}>Code &amp; setup instructions <span aria-hidden="true">↗</span></a>}
-    </header>
-    <div class="prose"><Content /></div>
-    <div class="article-end"><a href={pathFor('#articles')}><span aria-hidden="true">←</span> All posts</a></div>
+  <Fragment slot="head">
+    <meta property="article:published_time" content={post.data.date.toISOString()} />
+    {post.data.updated && <meta property="article:modified_time" content={post.data.updated.toISOString()} />}
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(schema).replace(/</g, '\u003c')} />
+  </Fragment>
+  <div class="mt-8 mb-2 flex items-center">
+    <LinkButton href={pathFor('posts/')} class="-ms-2 hover:text-foreground/75">
+      <IconChevronLeft aria-hidden="true" class="size-6" /> All posts
+    </LinkButton>
+  </div>
+  <header>
+    <h1 class="text-accent inline-block text-2xl font-bold sm:text-3xl">{post.data.title}</h1>
+    <div class="my-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+      <Datetime date={post.data.date} updated={post.data.updated} size="lg" />
+      <span class="text-muted-foreground text-sm">{readingMinutes(post.body)} min read</span>
+    </div>
+    <p class="text-muted-foreground mt-4">{post.data.description}</p>
+    {post.data.project && <a href={post.data.project} class="mt-4 inline-block text-sm underline decoration-dashed underline-offset-4 hover:text-accent">Code &amp; setup instructions ↗</a>}
+  </header>
+  <article id="article" class="app-prose max-w-app mt-8 w-full">
+    <Content />
   </article>
+  <hr class="my-8 border-dashed" />
+  <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8" aria-label="Post tags">
+    {post.data.tags.map(tag => <Tag {tag} size="sm" />)}
+  </ul>
+  <div class="mb-8 flex flex-wrap justify-between gap-4">
+    <LinkButton href={pathFor('posts/')}><IconChevronLeft aria-hidden="true" class="size-6" /> All posts</LinkButton>
+    <a href="#main-content" class="hover:text-accent">Back to top ↑</a>
+  </div>
 </Base>

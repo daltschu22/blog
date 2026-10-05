@@ -1,27 +1,37 @@
 ---
 import Base from '../layouts/Base.astro';
-import { publishedPosts, pathFor, formatDate, readingMinutes } from '../lib/posts';
+import Card from '../components/Card.astro';
+import LinkButton from '../components/LinkButton.astro';
+import IconArrowRight from '../assets/icons/IconArrowRight.svg';
+import IconRss from '../assets/icons/IconRss.svg';
+import { publishedPosts, pathFor } from '../lib/posts';
 
 const posts = await publishedPosts();
 ---
+
 <Base>
-  <section class="intro shell">
-    <h1>Projects<br />and notes</h1>
-    <p class="intro-description">Solar hardware, radio protocols, and home automation.</p>
+  <section id="hero" class="border-border border-b pt-8 pb-6">
+    <div class="flex items-baseline gap-4">
+      <h1 class="my-4 text-4xl font-bold sm:my-8 sm:text-5xl">Projects and notes</h1>
+      <a href={pathFor('rss.xml')} class="text-accent shrink-0" aria-label="RSS feed" title="RSS feed">
+        <IconRss aria-hidden="true" width={20} height={20} class="scale-125 stroke-3" />
+      </a>
+    </div>
+    <p>Notes on solar hardware, radio protocols, and home automation.</p>
+    <p class="mt-2">
+      Code and project documentation are on{' '}
+      <a href="https://github.com/daltschu22" class="underline decoration-dashed underline-offset-4 hover:text-accent">GitHub</a>.
+    </p>
   </section>
-  <section id="articles" class="articles shell" aria-labelledby="articles-heading">
-    <div class="section-heading"><h2 id="articles-heading">Posts</h2><span>{posts.length} {posts.length === 1 ? 'post' : 'posts'}</span></div>
-    {posts.map((post, index) => (
-      <article class="post-preview">
-        <div class="post-preview-copy">
-          <p class="post-number">{String(posts.length - index).padStart(2, '0')} <span>/</span> {post.data.tags.join(' · ')}</p>
-          <h3><a href={pathFor(`posts/${post.id}/`)}>{post.data.title}</a></h3>
-          <p class="post-description">{post.data.description}</p>
-          <p class="post-meta"><time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time><span aria-hidden="true">·</span><span>{readingMinutes(post.body)} min read</span></p>
-          <a class="read-link" href={pathFor(`posts/${post.id}/`)}>Read the article <span aria-hidden="true">↗</span></a>
-        </div>
-        {post.data.image && <a class="post-preview-image" href={pathFor(`posts/${post.id}/`)} tabindex="-1" aria-hidden="true"><img src={pathFor(post.data.image)} alt="" width="721" height="1280" /></a>}
-      </article>
-    ))}
+  <section id="articles" class="pt-12 pb-6" aria-labelledby="posts-heading">
+    <h2 id="posts-heading" class="text-2xl font-semibold tracking-wide">Recent posts</h2>
+    <ul>
+      {posts.slice(0, 4).map(post => <Card variant="h3" {...post} />)}
+    </ul>
   </section>
+  <div class="my-8 text-center">
+    <LinkButton href={pathFor('posts/')}>
+      All posts <IconArrowRight aria-hidden="true" class="size-6" />
+    </LinkButton>
+  </div>
 </Base>

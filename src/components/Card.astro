@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { pathFor } from '../lib/posts';
+import Datetime from './Datetime.astro';
+
+type Props = {
+  variant?: 'h2' | 'h3';
+} & CollectionEntry<'posts'>;
+
+const { variant: Heading = 'h2', id, data } = Astro.props;
+const { title, description, date, updated } = data;
+---
+
+<li class="my-6">
+  <a
+    href={pathFor(`posts/${id}/`)}
+    class="text-accent inline-block text-lg font-medium decoration-dashed underline-offset-4 hover:underline focus-visible:no-underline"
+  >
+    <Heading>{title}</Heading>
+  </a>
+  <Datetime {date} {updated} />
+  <p class="mt-1">{description}</p>
+</li>

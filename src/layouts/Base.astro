@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import { pathFor } from '../lib/posts';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
   title?: string;
@@ -21,12 +23,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(image, Astro.site);
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" class="overflow-y-scroll scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f6f5f0" />
+    <meta name="theme-color" content="#fdfdfd" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#212737" media="(prefers-color-scheme: dark)" />
+    <meta name="generator" content={Astro.generator} />
     {!noindex && <link rel="canonical" href={canonical} />}
     {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href={pathFor('favicon.svg')} />
@@ -42,20 +46,13 @@ const socialImage = new URL(image, Astro.site);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
     <title>{title}</title>
+    <slot name="head" />
   </head>
-  <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header shell">
-      <a class="wordmark" href={pathFor()} aria-label="Blog home">daltschu22 <span class="wordmark-divider">/</span> blog</a>
-      <nav aria-label="Main navigation">
-        <a href={pathFor('#articles')}>Articles</a>
-        <a href="https://github.com/daltschu22">GitHub <span aria-hidden="true">↗</span></a>
-      </nav>
-    </header>
-    <main id="main"><slot /></main>
-    <footer class="site-footer shell">
-      <p>daltschu22</p>
-      <div><a href={pathFor('rss.xml')}>RSS feed</a><a href="https://github.com/daltschu22/blog">Site source <span aria-hidden="true">↗</span></a></div>
-    </footer>
+  <body class="bg-background font-app text-foreground selection:bg-accent/75 selection:text-accent-foreground flex min-h-svh flex-col">
+    <Header />
+    <main id="main-content" tabindex="-1" class="app-layout my-1 flex-1">
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>

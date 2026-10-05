@@ -3,6 +3,13 @@
 A static, Markdown-driven project blog, built with Astro and published by GitHub
 Pages. The source of every article lives in this repository.
 
+The layout uses [AstroPaper](https://github.com/satnaing/astro-paper), adapted
+for this static blog. Posts use the theme's text list, article typography, and
+tag pages. Light and dark colors follow the system preference. Fonts use the
+system monospace stack, and Tailwind runs only during the build.
+
+See [THIRD_PARTY.md](THIRD_PARTY.md) for the upstream version and licenses.
+
 Site: **https://blog.daltschu.com/**
 
 Without `SITE_URL`, local builds use `https://daltschu22.github.io/blog/`.

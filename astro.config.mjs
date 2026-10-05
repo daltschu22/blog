@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { unified } from '@astrojs/markdown-remark';
+import tailwindcss from '@tailwindcss/vite';
 
 // The same source works at GitHub's project URL or our custom domain.
 // Change the SITE_URL repository variable when the custom domain is ready.
@@ -32,5 +33,9 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   integrations: [sitemap()],
-  markdown: { shikiConfig: { theme: 'github-dark' }, processor: unified({ rehypePlugins: [contentURLs] }) },
+  vite: { plugins: [tailwindcss()] },
+  markdown: {
+    shikiConfig: { themes: { light: 'github-light', dark: 'github-dark' }, defaultColor: false },
+    processor: unified({ rehypePlugins: [contentURLs] }),
+  },
 });
