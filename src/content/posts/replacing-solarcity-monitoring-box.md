@@ -161,13 +161,13 @@ The main steps are:
    [discovery script and report-to-config guide](https://github.com/daltschu22/solar-city-inverter-radio/blob/main/docs/discovery.md)
    to gather your channel, operating PAN IDs, expected collector EUI, and inverter EUI.
    Existing captures or accessible radio configuration are also useful sources.
-3. Review the evidence, put the observed values in `radio.local.json`, and validate
-   the file with `uv run python -m collector.config` from the repository root.
+3. Review the evidence, put the observed values in `.env`, and validate
+   the file with `uv run --env-file .env python -m collector.config` from the repository root.
 4. Power off the original collector, if present, and give the Python collector
    exclusive access to the radio bridge after capture has finished.
 5. Validate fresh readings, then observe startup and overnight recovery.
 
-From the repository root, run `uv run python -m collector` for collection and the JSON
+From the repository root, run `uv run --env-file .env python -m collector` for collection and the JSON
 API on port `8766`. The optional dashboard runs separately with
 `uv run python -m dashboard` on port `8765` and
 reads the collector API. Home Assistant can use the same API through its REST
