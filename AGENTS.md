@@ -6,6 +6,8 @@
 - Keep claims grounded in the linked project's documented behavior and limits.
   Leave out troubleshooting diaries, internal hostnames, radio identities,
   addresses, installation data, logs, and credentials.
+- Write directly. Avoid slogans, motivational sign-offs, manufactured branding,
+  and filler that announces why a fact matters instead of explaining it.
 - Review photos and remove metadata before adding their approved hashes.
 - Keep the site static, with minimal dependencies and no browser JavaScript
   unless a requested feature needs it.

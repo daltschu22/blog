@@ -6,12 +6,11 @@ const posts = await publishedPosts();
 ---
 <Base>
   <section class="intro shell">
-    <p class="eyebrow"><span class="small-square" aria-hidden="true"></span> Notes from the workbench</p>
-    <h1>Projects,<br />explained<span class="accent">.</span></h1>
-    <p class="intro-description">Solar, radios, and making hardware talk to software.<br class="desktop-break" /> The useful details, written down so you can build it too.</p>
+    <h1>Projects<br />and notes</h1>
+    <p class="intro-description">Solar hardware, radio protocols, and home automation.</p>
   </section>
   <section id="articles" class="articles shell" aria-labelledby="articles-heading">
-    <div class="section-heading"><h2 id="articles-heading">The notebook</h2><span>{posts.length} {posts.length === 1 ? 'article' : 'articles'}</span></div>
+    <div class="section-heading"><h2 id="articles-heading">Posts</h2><span>{posts.length} {posts.length === 1 ? 'post' : 'posts'}</span></div>
     {posts.map((post, index) => (
       <article class="post-preview">
         <div class="post-preview-copy">

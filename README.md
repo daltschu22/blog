@@ -1,4 +1,4 @@
-# Field notes
+# Blog
 
 A static, Markdown-driven project blog, built with Astro and published by GitHub
 Pages. The source of every article lives in this repository.

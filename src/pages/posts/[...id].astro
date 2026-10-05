@@ -20,11 +20,11 @@ const schema = {
   ...(post.data.image && { image: new URL(pathFor(post.data.image), Astro.site).href }),
 };
 ---
-<Base title={`${post.data.title} — Field notes`} description={post.data.description} image={post.data.image ? pathFor(post.data.image) : undefined} article>
+<Base title={`${post.data.title} — daltschu22`} description={post.data.description} image={post.data.image ? pathFor(post.data.image) : undefined} article>
   <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />
   <article class="article-shell">
     <header class="article-header">
-      <a class="back-link" href={pathFor('#articles')}><span aria-hidden="true">←</span> Back to the notebook</a>
+      <a class="back-link" href={pathFor('#articles')}><span aria-hidden="true">←</span> All posts</a>
       <p class="eyebrow">{post.data.tags.join(' / ')}</p>
       <h1>{post.data.title}</h1>
       <p class="article-description">{post.data.description}</p>
@@ -32,6 +32,6 @@ const schema = {
       {post.data.project && <a class="project-link" href={post.data.project}>Code &amp; setup instructions <span aria-hidden="true">↗</span></a>}
     </header>
     <div class="prose"><Content /></div>
-    <div class="article-end"><span class="mark" aria-hidden="true">fn.</span><p>Keep building.</p><a href={pathFor()}>More field notes <span aria-hidden="true">↗</span></a></div>
+    <div class="article-end"><a href={pathFor('#articles')}><span aria-hidden="true">←</span> All posts</a></div>
   </article>
 </Base>

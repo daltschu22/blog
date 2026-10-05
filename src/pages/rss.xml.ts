@@ -4,8 +4,8 @@ import { publishedPosts, pathFor } from '../lib/posts';
 
 export async function GET(context: APIContext) {
   return rss({
-    title: 'Field notes — daltschu22',
-    description: 'Projects, explained. Notes on solar, radios, and making hardware talk to software.',
+    title: 'Blog — daltschu22',
+    description: 'Notes on solar hardware, radio protocols, and home automation.',
     site: context.site!,
     items: (await publishedPosts()).map((post) => ({
       title: post.data.title,
