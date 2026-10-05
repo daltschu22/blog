@@ -179,7 +179,7 @@ API reads do not increase inverter polling frequency.
 A capture used to inspect the application exchange needs to include unicast
 traffic. Stock TI RCP promiscuous reception can miss ACK-requested unicasts, so a
 quiet capture is not conclusive. An independent, verified sniffer can help during
-initial characterization; it is not needed for normal operation.
+initial characterization. Normal operation uses the SMLIGHT alone.
 
 The repository contains fictional identities and synthetic telemetry.
 Installation configuration, captures, databases, and logs stay out of version
@@ -188,11 +188,9 @@ the data includes information about the local equipment.
 
 ## Testing and limitations
 
-With the original box powered off, I tested recovery from a radio reset and a
-leave/rejoin cycle. The original implementation also resumed readings after an
-overnight quiet period. These tests cover one installation. The standalone
-repository has offline tests and still needs independent hardware reproductions
-and longer-term testing.
+With the original box powered off, testing covered recovery from a radio reset,
+a leave/rejoin cycle, and an overnight-to-morning transition on one installation.
+Independent hardware reproductions and long-term reliability remain unverified.
 
 The included discovery tool can recover candidate settings from inverter traffic
 and explains the evidence for each value. On an operating replacement network,
