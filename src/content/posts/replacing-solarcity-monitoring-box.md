@@ -151,6 +151,9 @@ optional dashboard, and a single container image with an optional dashboard flag
 [setup guide](https://github.com/daltschu22/solar-city-inverter-radio/blob/main/docs/setup.md)
 covers the exact configuration fields and startup sequence.
 
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and run
+`uv sync --locked` from the repository root to set up Python and dependencies.
+
 The main steps are:
 
 1. Confirm the inverter and radio match the supported legacy setup.
@@ -159,14 +162,14 @@ The main steps are:
    to gather your channel, operating PAN IDs, expected collector EUI, and inverter EUI.
    Existing captures or accessible radio configuration are also useful sources.
 3. Review the evidence, put the observed values in `radio.local.json`, and validate
-   the file with `python -m collector.config` from the repository root.
+   the file with `uv run python -m collector.config` from the repository root.
 4. Power off the original collector, if present, and give the Python collector
    exclusive access to the radio bridge after capture has finished.
 5. Validate fresh readings, then observe startup and overnight recovery.
 
-From the repository root, run `python -m collector` for collection and the JSON
+From the repository root, run `uv run python -m collector` for collection and the JSON
 API on port `8766`. The optional dashboard runs separately with
-`python -m dashboard` on port `8765` and
+`uv run python -m dashboard` on port `8765` and
 reads the collector API. Home Assistant can use the same API through its REST
 sensors; the repository includes a
 [power and energy example](https://github.com/daltschu22/solar-city-inverter-radio/blob/main/docs/home-assistant.md).
