@@ -3,25 +3,16 @@ import Base from '../layouts/Base.astro';
 import Card from '../components/Card.astro';
 import LinkButton from '../components/LinkButton.astro';
 import IconArrowRight from '../assets/icons/IconArrowRight.svg';
-import IconRss from '../assets/icons/IconRss.svg';
 import { publishedPosts, pathFor } from '../lib/posts';
 
 const posts = await publishedPosts();
 ---
 
 <Base>
-  <section id="hero" class="border-border border-b pt-8 pb-6">
-    <div class="flex items-baseline gap-4">
-      <h1 class="my-4 text-4xl font-bold sm:my-8 sm:text-5xl">Projects and notes</h1>
-      <a href={pathFor('rss.xml')} class="text-accent shrink-0" aria-label="RSS feed" title="RSS feed">
-        <IconRss aria-hidden="true" width={20} height={20} class="scale-125 stroke-3" />
-      </a>
-    </div>
-  </section>
   <section id="articles" class="pt-12 pb-6" aria-labelledby="posts-heading">
-    <h2 id="posts-heading" class="text-2xl font-semibold tracking-wide">Recent posts</h2>
+    <h1 id="posts-heading" class="text-2xl font-semibold tracking-wide">Recent posts</h1>
     <ul>
-      {posts.slice(0, 4).map(post => <Card variant="h3" {...post} />)}
+      {posts.slice(0, 4).map(post => <Card {...post} />)}
     </ul>
   </section>
   <div class="my-8 text-center">
