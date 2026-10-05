@@ -3,9 +3,9 @@
 A static, Markdown-driven project blog, built with Astro and published by GitHub
 Pages. The source of every article lives in this repository.
 
-Default site: **https://daltschu22.github.io/blog/**
+Site: **https://blog.daltschu.com/**
 
-Planned custom domain: **https://blog.daltschu.com/**
+Without `SITE_URL`, local builds use `https://daltschu22.github.io/blog/`.
 
 ## Write a post
 
@@ -73,6 +73,11 @@ stay ignored. No server, credentials, or live inverter connection is needed to
 serve this site.
 
 ## Connect the custom domain
+
+The live site uses `blog.daltschu.com`. Its Cloudflare record is managed with
+Terraform as a DNS-only CNAME to `daltschu22.github.io`.
+
+To reproduce this setup:
 
 Verify ownership of `daltschu.com` in your GitHub account's Settings → Pages
 using the TXT record GitHub supplies. Then:
