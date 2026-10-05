@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import PostGrid from '../components/PostGrid.astro';
+import SearchController from '../components/SearchController.astro';
+import { pathFor, publishedPosts } from '../lib/posts';
+const posts = await publishedPosts();
+---
+<Base title="Search — daltschu22" description="Search published blog posts.">
+  <section class="section"><div class="container">
+    <h1 class="h2 page-heading">Search</h1>
+    <form role="search" action={pathFor('search/')} method="get" class="mb-8">
+      <label for="post-search" class="sr-only">Search posts</label>
+      <input id="post-search" class="form-input w-full text-center" name="q" type="search" placeholder="Search posts" autocomplete="off" />
+    </form>
+    <p id="search-status" role="status" class="mb-8 text-center"></p>
+    <PostGrid {posts} searchable />
+    <SearchController />
+  </div></section>
+</Base>

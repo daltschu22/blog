@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { unified } from '@astrojs/markdown-remark';
 import tailwindcss from '@tailwindcss/vite';
@@ -34,8 +34,16 @@ export default defineConfig({
   trailingSlash: 'always',
   integrations: [sitemap()],
   vite: { plugins: [tailwindcss()] },
+  fonts: [{
+    name: 'Mulish',
+    cssVariable: '--font-primary',
+    provider: fontProviders.google(),
+    weights: [400, 600, 700],
+    display: 'swap',
+    fallbacks: ['sans-serif'],
+  }],
   markdown: {
-    shikiConfig: { themes: { light: 'github-light', dark: 'github-dark' }, defaultColor: false },
+    shikiConfig: { theme: 'one-dark-pro', wrap: true },
     processor: unified({ rehypePlugins: [contentURLs] }),
   },
 });

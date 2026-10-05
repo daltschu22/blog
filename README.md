@@ -3,10 +3,12 @@
 A static, Markdown-driven project blog, built with Astro and published by GitHub
 Pages. The source of every article lives in this repository.
 
-The layout uses [AstroPaper](https://github.com/satnaing/astro-paper), adapted
-for this static blog. Posts use the theme's text list, article typography, and
-tag pages. Light and dark colors follow the system preference. Fonts use the
-system monospace stack, and Tailwind runs only during the build.
+The layout adapts [Bookworm Light](https://github.com/themefisher/bookworm-light-astro)
+with compact photo cards, article typography, and tag pages. The dark mode
+button follows the system preference until a reader chooses a mode, then
+remembers that choice. Mulish fonts are served with the site, and Tailwind runs
+only during the build. Small browser scripts handle dark mode and search;
+the rest of the site is static.
 
 See [THIRD_PARTY.md](THIRD_PARTY.md) for the upstream version and licenses.
 
@@ -40,6 +42,8 @@ readable. Keep private writing in a separate private checkout or repository.
 Use `updated: YYYY-MM-DD` for a later substantive revision. Optional `project`
 links the article to its software repository. Optional `image` is a path relative
 to `public/`, for example `images/my-project/photo.jpg`.
+Set `imageAlt`, `imageWidth`, and `imageHeight` for descriptive alternative text
+and the photo's original pixel dimensions. Photos are displayed without cropping.
 
 Put photos in `public/images/`, remove identifying labels and metadata, and
 review them before updating the approved image hashes in

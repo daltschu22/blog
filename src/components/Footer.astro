@@ -1,24 +1,18 @@
 ---
 import { pathFor } from '../lib/posts';
 import IconGitHub from '../assets/icons/IconGitHub.svg';
-import IconRss from '../assets/icons/IconRss.svg';
-const year = new Date().getUTCFullYear();
+const links = [
+  { name: 'Home', url: pathFor() },
+  { name: 'Posts', url: pathFor('posts/') },
+  { name: 'Tags', url: pathFor('tags/') },
+  { name: 'RSS', url: pathFor('rss.xml') },
+  { name: 'Site source', url: 'https://github.com/daltschu22/blog' },
+];
 ---
-
-<footer class="app-layout mt-auto pt-12">
-  <div class="border-border flex flex-col items-center justify-between gap-4 border-t py-6 sm:flex-row-reverse sm:py-4">
-    <div class="flex items-center gap-5">
-      <a href="https://github.com/daltschu22" class="hover:text-accent" aria-label="daltschu22 on GitHub" title="GitHub">
-        <IconGitHub aria-hidden="true" class="size-6" />
-      </a>
-      <a href={pathFor('rss.xml')} class="hover:text-accent" aria-label="RSS feed" title="RSS feed">
-        <IconRss aria-hidden="true" class="size-6" />
-      </a>
-      <a href="https://github.com/daltschu22/blog" class="text-sm hover:text-accent">Site source</a>
-    </div>
-    <p class="text-sm">© {year} daltschu22</p>
+<footer class="section bg-footer">
+  <div class="container text-center">
+    <ul class="mb-8 flex flex-wrap justify-center gap-x-4 gap-y-2">{links.map(link => <li><a href={link.url} class="inline-block p-4 text-white/75 hover:text-white">{link.name}</a></li>)}</ul>
+    <ul class="social-icons mb-8"><li><a href="https://github.com/daltschu22" aria-label="GitHub"><IconGitHub aria-hidden="true" class="w-4" /></a></li></ul>
+    <p class="text-white/75">© {new Date().getUTCFullYear()} daltschu22 · Theme: <a href="https://github.com/themefisher/bookworm-light-astro">Bookworm Light</a></p>
   </div>
-  <p class="text-muted-foreground pb-4 text-center text-xs sm:text-left">
-    Theme: <a href="https://github.com/satnaing/astro-paper" class="underline decoration-dashed underline-offset-4 hover:text-accent">AstroPaper</a>
-  </p>
 </footer>

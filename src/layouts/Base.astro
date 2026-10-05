@@ -1,9 +1,10 @@
 ---
-import '../styles/global.css';
+import '../styles/main.css';
+import { Font } from 'astro:assets';
 import { pathFor } from '../lib/posts';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-
+import ThemeMode from '../components/ThemeMode.astro';
 interface Props {
   title?: string;
   description?: string;
@@ -11,11 +12,10 @@ interface Props {
   article?: boolean;
   noindex?: boolean;
 }
-
 const {
-  title = 'Blog — daltschu22',
-  description = 'Notes on solar hardware, radio protocols, and home automation.',
-  image = pathFor('images/solarcity/power-one-pvi-5000-outd-us-z-front.jpg'),
+  title = "daltschu22's blog",
+  description = 'Posts on solar hardware, radio protocols, and home automation.',
+  image = pathFor('images/solarcity/original-solarcity-collector-wide.jpg'),
   article = false,
   noindex = false,
 } = Astro.props;
@@ -23,13 +23,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(image, Astro.site);
 ---
 <!doctype html>
-<html lang="en" class="overflow-y-scroll scroll-smooth">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#fdfdfd" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#212737" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" />
+    <ThemeMode />
+    <Font cssVariable="--font-primary" preload />
     <meta name="generator" content={Astro.generator} />
     {!noindex && <link rel="canonical" href={canonical} />}
     {noindex && <meta name="robots" content="noindex" />}
@@ -48,11 +49,9 @@ const socialImage = new URL(image, Astro.site);
     <title>{title}</title>
     <slot name="head" />
   </head>
-  <body class="bg-background font-app text-foreground selection:bg-accent/75 selection:text-accent-foreground flex min-h-svh flex-col">
+  <body>
     <Header />
-    <main id="main-content" tabindex="-1" class="app-layout my-1 flex-1">
-      <slot />
-    </main>
+    <main id="main-content" tabindex="-1" class="min-h-[60vh]"><slot /></main>
     <Footer />
   </body>
 </html>

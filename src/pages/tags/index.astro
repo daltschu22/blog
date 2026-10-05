@@ -1,17 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import Tag from '../../components/Tag.astro';
-import { publishedPosts } from '../../lib/posts';
-
+import IconHash from '../../assets/icons/IconHash.svg';
+import { humanize, pathFor, publishedPosts } from '../../lib/posts';
 const tags = [...new Set((await publishedPosts()).flatMap(post => post.data.tags))].sort();
 ---
-
 <Base title="Tags — daltschu22" description="Browse blog posts by topic.">
-  <Breadcrumb current="Tags" />
-  <h1 class="text-2xl font-semibold sm:text-3xl">Tags</h1>
-  <p class="mt-2 mb-6 italic">Browse posts by topic.</p>
-  <ul class="flex flex-wrap gap-6">
-    {tags.map(tag => <Tag {tag} />)}
-  </ul>
+  <section class="section"><div class="container text-center">
+    <h1 class="h2 page-heading">Tags</h1>
+    <ul class="flex flex-wrap justify-center gap-4">{tags.map(tag => <li><a href={pathFor(`tags/${encodeURIComponent(tag)}/`)} class="flex items-center rounded-lg bg-light px-4 py-2 text-dark hover:text-primary"><IconHash class="mr-1 h-4 w-4 text-primary" aria-hidden="true" />{humanize(tag)}</a></li>)}</ul>
+  </div></section>
 </Base>

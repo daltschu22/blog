@@ -1,13 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
-import LinkButton from '../components/LinkButton.astro';
 import { pathFor } from '../lib/posts';
 ---
-
 <Base title="Page not found — daltschu22" noindex>
-  <div class="flex min-h-[55svh] flex-col items-center justify-center text-center">
-    <h1 class="text-accent text-8xl font-bold sm:text-9xl">404</h1>
-    <p class="mt-4 text-2xl sm:text-3xl">Page not found</p>
-    <LinkButton href={pathFor()} class="my-6 text-lg underline decoration-dashed underline-offset-8">Back to the blog</LinkButton>
-  </div>
+  <section class="section"><div class="container">
+    <div class="flex h-[40vh] items-center justify-center text-center"><div><h1 class="h2 md:h1 mb-4">Error 404</h1><p>Page not found</p><a href={pathFor()} class="btn btn-primary mt-8">Back to home</a></div></div>
+  </div></section>
 </Base>

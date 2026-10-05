@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostGrid from '../../components/PostGrid.astro';
+import IconGitHub from '../../assets/icons/IconGitHub.svg';
+import { publishedPosts } from '../../lib/posts';
+const posts = await publishedPosts();
+---
+<Base title="daltschu22 — Blog">
+  <section class="section"><div class="container">
+    <h1 class="h2 page-heading">daltschu22</h1>
+    <p class="mb-16 text-center"><a href="https://github.com/daltschu22" class="inline-flex items-center gap-2 text-dark hover:text-primary"><IconGitHub class="h-5 w-5" aria-hidden="true" />GitHub</a></p>
+    <h2 class="h3 mb-8 text-center">Recent posts</h2>
+    <PostGrid {posts} />
+  </div></section>
+</Base>

@@ -1,0 +1,14 @@
+---
+import { humanize, pathFor, shortDate } from '../lib/posts';
+import IconCalendar from '../assets/icons/IconCalendar.svg';
+interface Props { date: Date; tags: string[]; centered?: boolean }
+const { date, tags, centered = false } = Astro.props;
+---
+<ul class:list={['flex flex-wrap items-center gap-x-5 gap-y-1 text-text', { 'justify-center': centered }]}>
+  <li><a href={pathFor('authors/daltschu22/')} class="font-medium hover:text-primary">daltschu22</a></li>
+  <li class="flex items-center font-medium"><IconCalendar class="mr-1 h-5 w-5 text-gray-600" aria-hidden="true" /><time datetime={date.toISOString()}>{shortDate(date)}</time></li>
+  {tags.length > 0 && <li class="flex items-center">
+    <svg class="mr-1 h-[18px] w-[18px] text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m4 4 8-1 9 9-9 9-9-9 1-8Z" /><circle cx="8" cy="8" r="1" /></svg>
+    <ul>{tags.map((tag, index) => <li class="inline-block"><a href={pathFor(`tags/${encodeURIComponent(tag)}/`)} class="mr-2 font-medium hover:text-primary">{humanize(tag)}{index < tags.length - 1 && ','}</a></li>)}</ul>
+  </li>}
+</ul>

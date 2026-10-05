@@ -15,6 +15,8 @@ const posts = defineCollection({
     project: z.url().optional(),
     image: z.string().optional(),
     imageAlt: z.string().optional(),
+    imageWidth: z.number().int().positive().optional(),
+    imageHeight: z.number().int().positive().optional(),
   }),
 });
 

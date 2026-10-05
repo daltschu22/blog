@@ -7,6 +7,8 @@ draft: false
 project: "https://github.com/daltschu22/solar-city-inverter-radio"
 image: "images/solarcity/original-solarcity-collector-wide.jpg"
 imageAlt: "Original SolarCity monitoring box with an external radio antenna"
+imageWidth: 1280
+imageHeight: 721
 ---
 
 My solar setup has a Power-One inverter and a SolarCity monitoring box. The

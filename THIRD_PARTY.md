@@ -1,25 +1,30 @@
 # Theme sources
 
-This blog adapts [AstroPaper v6.1.0](https://github.com/satnaing/astro-paper),
-by Sat Naing, from commit
-[`35cfa7fbe0b897306d27670d3819e55d5205f3dd`](https://github.com/satnaing/astro-paper/tree/35cfa7fbe0b897306d27670d3819e55d5205f3dd).
+This blog adapts [Bookworm Light Astro v4.0.3](https://github.com/themefisher/bookworm-light-astro),
+by Themefisher, from commit
+[`b94f01efcf2296568902975118305cd0da9cd80e`](https://github.com/themefisher/bookworm-light-astro/tree/b94f01efcf2296568902975118305cd0da9cd80e).
 
-The theme's `src/styles/global.css`, `theme.css`, and `typography.css`,
-`src/components/LinkButton.astro`, and SVG icons were copied from that revision.
-The header, footer, date, post card, tag, breadcrumb, homepage, post page, and
-index layouts adapt its corresponding components and pages to this site's
-content schema and deployment paths.
+The styles in `src/styles/`, theme configuration, and Tailwind theme/grid plugins
+were copied from that revision and adapted for the site's palette and dark mode.
+The header, footer, post cards, article, author, and tag layouts adapt the
+corresponding Bookworm components to this repository's content schema and paths.
+The approved photo is displayed without cropping, and its dimensions limit
+layout movement as it loads.
 
-The adaptation uses system fonts and CSS media queries for light and dark
-colors. Navigation stays visible on mobile. Search, client routing, dynamic
-social images, and client scripts are omitted. Article photos retain the
-existing grid styling. Published Markdown filenames, the draft policy, RSS,
-and GitHub Pages deployment remain configured in this repository.
+The adaptation retains published post filenames and URLs, the default-private
+draft policy, RSS, and GitHub Pages deployment. It serves Mulish fonts locally.
+Dark mode and search use small browser scripts. The template's React runtime,
+client routing, demo content/images, analytics, and cloud deployment tools are
+omitted. No additional npm dependencies are required by the adaptation.
 
-AstroPaper is licensed under MIT, copyright © 2023 Sat Naing.
-The full license is in [licenses/AstroPaper-MIT.txt](licenses/AstroPaper-MIT.txt).
+Bookworm Light is licensed under MIT, copyright © 2023–Present Themefisher.
+The full license is in [licenses/Bookworm-MIT.txt](licenses/Bookworm-MIT.txt).
 
-The SVG icons included by AstroPaper come from
-[Tabler Icons](https://github.com/tabler/tabler-icons), also licensed under MIT,
+The GitHub, calendar, and hash SVG icons come from
+[Tabler Icons](https://github.com/tabler/tabler-icons), licensed under MIT,
 copyright © 2020–2026 Paweł Kuna. The full license is in
 [licenses/Tabler-MIT.txt](licenses/Tabler-MIT.txt).
+
+Mulish is licensed under the SIL Open Font License 1.1. Its copyright notice
+and license are distributed with the site in
+[public/fonts/Mulish-OFL.txt](public/fonts/Mulish-OFL.txt).

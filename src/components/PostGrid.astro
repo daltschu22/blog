@@ -1,0 +1,9 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Card from './Card.astro';
+interface Props { posts: CollectionEntry<'posts'>[]; searchable?: boolean }
+const { posts, searchable = false } = Astro.props;
+---
+<div class:list={['row gy-5 gx-4', { 'justify-center': posts.length === 1 }]}>
+  {posts.map(post => <article class="col-12 sm:col-6" data-search={searchable ? [post.data.title, post.data.description, ...post.data.tags].join(' ').toLowerCase() : undefined}><Card {post} /></article>)}
+</div>

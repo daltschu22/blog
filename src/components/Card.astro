@@ -1,23 +1,14 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 import { pathFor } from '../lib/posts';
-import Datetime from './Datetime.astro';
-
-type Props = {
-  variant?: 'h2' | 'h3';
-} & CollectionEntry<'posts'>;
-
-const { variant: Heading = 'h2', id, data } = Astro.props;
-const { title, description, date, updated } = data;
+import PostMeta from './PostMeta.astro';
+interface Props { post: CollectionEntry<'posts'> }
+const { post } = Astro.props;
+const { title, description, image, imageAlt, imageWidth, imageHeight, date, tags } = post.data;
+const url = pathFor(`posts/${post.id}/`);
 ---
-
-<li class="my-6">
-  <a
-    href={pathFor(`posts/${id}/`)}
-    class="text-accent inline-block text-lg font-medium decoration-dashed underline-offset-4 hover:underline focus-visible:no-underline"
-  >
-    <Heading>{title}</Heading>
-  </a>
-  <Datetime {date} {updated} />
-  <p class="mt-1">{description}</p>
-</li>
+{image && <a href={url} aria-label={title} class="block overflow-hidden rounded-lg"><Image src={pathFor(image)} alt={imageAlt ?? title} width={imageWidth ?? 445} height={imageHeight ?? 230} class="post-thumbnail" /></a>}
+<div class="mt-6 mb-4"><PostMeta {date} {tags} /></div>
+<h2 class="h3 mb-4"><a href={url} class="block hover:text-primary">{title}</a></h2>
+<p class="text-text line-clamp-2">{description}</p>
