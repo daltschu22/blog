@@ -7,7 +7,7 @@ The layout adapts [Bookworm Light](https://github.com/themefisher/bookworm-light
 with compact photo cards, article typography, and tag pages. The dark mode
 button follows the system preference until a reader chooses a mode, then
 remembers that choice. Mulish fonts are served with the site, and Tailwind runs
-only during the build. Small browser scripts handle dark mode and search;
+only during the build. Small browser scripts handle dark mode, search, and analytics;
 the rest of the site is static.
 
 See [THIRD_PARTY.md](THIRD_PARTY.md) for the upstream version and licenses.
@@ -83,6 +83,20 @@ GitHub Actions use the latest stable major-version tags and receive updates
 within those majors automatically. npm installs use the committed lockfile.
 Build output and local secrets stay ignored. No server, credentials, or live
 inverter connection is needed to serve this site.
+
+## Visitor statistics
+
+The site uses [Cloudflare Web Analytics](https://developers.cloudflare.com/web-analytics/)
+for visits and page views. Its site configuration is managed in the
+[`home-tf` Cloudflare stack](https://github.com/daltschu22/home-tf/tree/main/cloudflare).
+Set the blog repository's `CLOUDFLARE_WEB_ANALYTICS_TOKEN` Actions variable to
+Terraform's `blog_web_analytics_token` output. This is a public beacon token,
+not a Cloudflare API credential.
+
+Production builds include Cloudflare's deferred beacon when the token is set.
+Development previews and builds without the token do not collect analytics.
+Statistics start after the beacon is deployed and are available in the
+Cloudflare dashboard under Web Analytics → `blog.daltschu.com`.
 
 ## Connect the custom domain
 

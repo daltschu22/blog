@@ -17,6 +17,11 @@ Dark mode and search use small browser scripts. The template's React runtime,
 client routing, demo content/images, analytics, and cloud deployment tools are
 omitted. No additional npm dependencies are required by the adaptation.
 
+Visitor statistics use the externally hosted
+[Cloudflare Web Analytics beacon](https://developers.cloudflare.com/web-analytics/),
+enabled through a public build-time token. The beacon is loaded directly from
+Cloudflare and is not copied into this repository.
+
 Bookworm Light is licensed under MIT, copyright © 2023–Present Themefisher.
 The full license is in [licenses/Bookworm-MIT.txt](licenses/Bookworm-MIT.txt).
 
