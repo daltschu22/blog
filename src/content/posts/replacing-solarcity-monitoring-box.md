@@ -1,8 +1,8 @@
 ---
-title: "Reading a SolarCity inverter locally: replacement or passive collection"
+title: "Decoding SolarCity Inverter Radio Data"
 description: "Read a Power-One inverter with a SMLIGHT bridge and Python: replace the SolarCity box or try experimental passive monitoring alongside it."
 date: 2026-10-05
-updated: 2026-10-05
+updated: 2026-10-06
 tags: [solar, radio, home-assistant]
 draft: false
 project: "https://github.com/daltschu22/solar-city-inverter-radio"
