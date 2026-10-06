@@ -91,7 +91,7 @@ The supported network uses legacy stack profile `0` and unencrypted packets.
 The replacement collector implements the Digi network and application behavior this
 inverter expects; radio hardware compatibility alone isn't sufficient.
 
-## Using a network radio from Python
+## Connecting to the radio
 
 The SLZB-06U exposes its radio through a network serial bridge. That lets the
 collector run on a machine with no USB connection to the radio.
