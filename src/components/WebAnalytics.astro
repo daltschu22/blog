@@ -1,0 +1,16 @@
+---
+const token = process.env.CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim();
+if (token && !/^[a-f0-9]{32}$/.test(token)) {
+  throw new Error('CLOUDFLARE_WEB_ANALYTICS_TOKEN must be a 32-character public beacon token.');
+}
+const enabled = import.meta.env.PROD && Boolean(token);
+---
+{enabled && (
+  <script
+    is:inline
+    defer
+    src="https://static.cloudflareinsights.com/beacon.min.js"
+    data-cf-beacon={JSON.stringify({ token })}
+    data-site-script="analytics"
+  ></script>
+)}
