@@ -18,7 +18,6 @@ I wanted to replicate this myself. Here's how I did it.
 
 I used Twilio for the phone number and a small Python app to handle the call.
 When someone calls, Twilio sends a request to the app's `/voice` endpoint.
-The response tells it what to do next.
 
 ## Answering the call
 
