@@ -11,4 +11,4 @@ const url = pathFor(`posts/${post.id}/`);
 {image && <a href={url} aria-label={title} class="block overflow-hidden rounded-lg"><Image src={pathFor(image)} alt={imageAlt ?? title} width={imageWidth ?? 445} height={imageHeight ?? 230} class="post-thumbnail" /></a>}
 <div class="mt-6 mb-4"><PostMeta {date} {tags} /></div>
 <h2 class="h3 mb-4"><a href={url} class="block hover:text-primary">{title}</a></h2>
-<p class="text-text line-clamp-2">{description}</p>
+{description && <p class="text-text line-clamp-2">{description}</p>}

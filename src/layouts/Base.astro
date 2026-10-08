@@ -15,7 +15,7 @@ interface Props {
 }
 const {
   title = "daltschu22's blog",
-  description = 'Posts on solar hardware, radio protocols, and home automation.',
+  description = Astro.props.article ? undefined : 'Posts on solar hardware, radio protocols, and home automation.',
   image = pathFor('images/solarcity/original-solarcity-collector-wide.jpg'),
   article = false,
   noindex = false,
@@ -28,7 +28,7 @@ const socialImage = new URL(image, Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
+    {description && <meta name="description" content={description} />}
     <meta name="theme-color" content="#ffffff" />
     <ThemeMode />
     <Font cssVariable="--font-primary" preload />
@@ -38,14 +38,14 @@ const socialImage = new URL(image, Astro.site);
     <link rel="icon" type="image/svg+xml" href={pathFor('favicon.svg')} />
     <link rel="alternate" type="application/rss+xml" title="daltschu22's blog" href={pathFor('rss.xml')} />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    {description && <meta property="og:description" content={description} />}
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:site_name" content="daltschu22's blog" />
     <meta property="og:image" content={socialImage} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    {description && <meta name="twitter:description" content={description} />}
     <meta name="twitter:image" content={socialImage} />
     <title>{title}</title>
     <slot name="head" />

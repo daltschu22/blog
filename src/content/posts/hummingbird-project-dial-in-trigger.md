@@ -1,6 +1,5 @@
 ---
 title: "Calling My Server Like The Hummingbird Project"
-description: "Recreating the phone scene from The Hummingbird Project with Twilio and a shell script."
 date: 2026-10-07
 tags: [homelab, twilio, automation]
 draft: false
