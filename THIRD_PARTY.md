@@ -33,3 +33,12 @@ copyright © 2020–2026 Paweł Kuna. The full license is in
 Mulish is licensed under the SIL Open Font License 1.1. Its copyright notice
 and license are distributed with the site in
 [public/fonts/Mulish-OFL.txt](public/fonts/Mulish-OFL.txt).
+
+## Post images
+
+`public/images/hummingbird-project/phone-scene.jpg` is a still from
+*The Hummingbird Project* (2018), sourced from the thumbnail of the
+[clip discussed in the post](https://www.youtube.com/watch?v=tOLr1pkdr9Q).
+The image illustrates the scene discussed in the article. It is third-party
+film imagery and is not covered by the theme's MIT license. Metadata was
+checked and stripped where present; the image was not cropped or recompressed.

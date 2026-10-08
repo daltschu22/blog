@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 
 const files = execFileSync('git', ['ls-files', '-z', '--cached', '--others', '--exclude-standard'], { encoding: 'utf8' }).split('\0').filter(file => file && existsSync(file));
 const approvedPhotos = {
+  'public/images/hummingbird-project/phone-scene.jpg': '3accf656ff45ff5c2091d2f5fb45860f123001d5ef20df8ec7075c95808a8633',
   'public/images/solarcity/power-one-pvi-5000-outd-us-z-front.jpg': '4e40ea9c5a48528e18fca71b1739125451aa13ffaf3a64a20ca30aa392d86d12',
   'public/images/solarcity/original-solarcity-collector.jpg': 'b7e5a39567b5ceefb6b18b45c4f061c2055a67c325d438450137a3a055e81254',
   'public/images/solarcity/original-solarcity-collector-wide.jpg': '0c6f634a149c819f26cfa21735a5f55827c2016b42c170e0153a660ed9502c0b',
