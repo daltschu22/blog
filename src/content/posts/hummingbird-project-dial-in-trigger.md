@@ -1,5 +1,5 @@
 ---
-title: "Calling My Server Like The Hummingbird Project"
+title: "Give your server a phone number"
 date: 2026-10-07
 tags: [homelab, twilio, automation]
 draft: false
