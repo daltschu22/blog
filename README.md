@@ -52,7 +52,7 @@ the build prefixes the deployment path automatically.
 
 ## Preview and validate
 
-Use Node 22.12 or newer:
+Use Node 22.23.4 or newer:
 
 ```bash
 npm ci
@@ -75,8 +75,11 @@ image paths, canonical URLs, RSS, and sitemap.
 
 ## Publishing
 
-Pull requests run checks and a build. Pushes to `main` run those same checks,
-then deploy to GitHub Pages. There is no publication from a pull request and
+Pull requests verify the generated site at both the GitHub Pages project path
+(`/blog/`) and the custom domain root. Pushes to `main` run the same checks,
+then deploy the custom-domain build to GitHub Pages. Publishing requires the
+`SITE_URL` and `CLOUDFLARE_WEB_ANALYTICS_TOKEN` repository variables.
+There is no publication from a pull request and
 no external cross-posting automation. The RSS feed is at `/rss.xml`.
 
 GitHub Actions use the latest stable major-version tags and receive updates
